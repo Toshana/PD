@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="../d3/d3.js"></script>
+        <style type="text/css">
+
+            body {
+                background-color: gray;
+            }
+
+            svg {
+                background-color: white;
+            }
+
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+
+            // width and height
+            var w = 1000
+            var h = 900
+
+            var dataset;
+            d3.csv("trump_d3", function(data) {
+                console.log(data)
+                dataset = data;
+
+                var text = svg.selectAll("text")
+                        .data(dataset)
+                        .enter()
+                        .append("text");
+
+                var textLabels = text
+                        .attr("x", function(d) {
+                            return d.x_one;
+                        })
+                        .attr("y", function (d) {
+                            return d.y_one;
+                        })
+                        .text(function (d) {
+                            return d.word;
+                        })
+                        .attr("font-family", "sans-serif")
+                        .attr("fill", "gray")
+                        .attr("font-size", function (d) {
+                            return d.size;
+                        });
+            });
+
+            
+            // Create SVG element
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            
+                        
+               // .transition()
+               // .duration(2000)
+               // .attr("y", function(d) {
+               //     return d.y_two;
+               // })
+               // .attr("font-size", function(d) {
+               //     return d.size;
+               // })
+
+
+        </script>
+    </body>
+</html>
