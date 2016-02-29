@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>D3 Page Template</title>
-        <script type="text/javascript" src="../d3/d3.js"></script>
+        <script type="text/javascript" src="d3.js"></script>
         <style type="text/css">
 
             body {
@@ -19,12 +19,16 @@
     <body>
         <script type="text/javascript">
 
+            // padding
+            var padding = 100;
+            
             // width and height
-            var w = 1000
-            var h = 900
+            var w = 1000;
+            var h = 900;
+
 
             var dataset;
-            d3.csv("trump_d3", function(data) {
+            d3.csv("trump_d3_ex", function(data) {
                 console.log(data)
                 dataset = data;
 
@@ -33,21 +37,45 @@
                         .enter()
                         .append("text");
 
+                // Create Scale functions
+                // var xscale = d3.scale.linear()
+                //                      .domain([0, d3.max(dataset, function(d) {
+                //                         return d.x_one;
+                //                      })])
+                //                      .range([0, w])
+                // var yscale = d3.scale.linear()
+                //                      .domain([0, d3.max(dataset, function(d) {
+                //                         return d.x_one;
+                //   Math.floor(Math.random() * d.frequency)                   })])
+
+
                 var textLabels = text
-                        .attr("x", function(d) {
-                            return d.x_one;
+                        .attr("x", function (d) {
+                            return Math.random() * (w - 1) + 1;
                         })
                         .attr("y", function (d) {
-                            return d.y_one;
+                            return Math.random() * (h - 1) + 1;
                         })
                         .text(function (d) {
                             return d.word;
                         })
                         .attr("font-family", "sans-serif")
-                        .attr("fill", "gray")
+                        .attr("fill", "black")
                         .attr("font-size", function (d) {
-                            return d.size;
+                            return Math.sqrt(d.frequency * 100);
+                        })
+                        .style("opacity", function (d) {
+                            if (40 < d.frequency < 50)
+                                return 0.4
+                            else if (50 < d.frequency < 60)
+                                return 0.3
+                            else if (d.frequency > 60)
+                                return 0.2
+                            else
+                                return 0.9
                         });
+                
+
             });
 
             
@@ -55,8 +83,9 @@
             var svg = d3.select("body")
                         .append("svg")
                         .attr("width", w)
-                        .attr("height", h);
-
+                        .attr("height", h)
+                        .style("padding", 150);
+                        
             
                         
                // .transition()
